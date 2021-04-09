@@ -1,0 +1,22 @@
+/* tslint:disable */
+/* eslint-disable */
+{{>licenseInfo}}
+
+import Axios from "axios";
+
+const axios = Axios.create();
+
+export { axios };
+
+/**
+ *
+ * @export
+ * @class RequiredError
+ * @extends {Error}
+ */
+export class RequiredError extends Error {
+    name: "RequiredError" = "RequiredError";
+    constructor(public field: string, msg?: string) {
+        super(msg);
+    }
+}
