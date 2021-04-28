@@ -28,12 +28,14 @@ import { {{classname}} } from '{{apiRelativeToRoot}}{{tsModelPackage}}';
  * @param {*} [options] Override http request option.
  * @throws {RequiredError}
  */
+ // 以下方式为 参数很多时候 放在对象内处理的方式
+ // export const  {{#lambda.camelcase}}{{path}}With{{httpMethod}}{{/lambda.camelcase}} = ({ {{#allParams}}{{paramName}},{{/allParams}} }:{ {{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}} }{{^hasRequiredParams}} = {}{{/hasRequiredParams}},options: AxiosRequestConfig = {}) => {
 export const {{#lambda.camelcase}}{{path}}With{{httpMethod}}{{/lambda.camelcase}} = ({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options: AxiosRequestConfig = {}) => {
     {{#allParams}}
     {{#required}}
             // verify required parameter '{{paramName}}' is not null or undefined
             if ({{paramName}} === null || {{paramName}} === undefined) {
-                throw new RequiredError('{{paramName}}','Required parameter {{paramName}} was null or undefined when calling {{#lambda.camelcase}}{{path}}With{{httpMethod}}{{/lambda.camelcase}}.');
+                throw new RequiredError('{{paramName}}','Required parameter {{paramName}} was null or undefined when calling {{nickname}}.');
             }
     {{/required}}
     {{/allParams}}
@@ -148,7 +150,7 @@ export const {{#lambda.camelcase}}{{path}}With{{httpMethod}}{{/lambda.camelcase}
     {{/bodyParam}}
 
     localVarRequestOptions.url = localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash;
-    return axios.request<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}>(localVarRequestOptions).then(res => res.data)
+    return axios.request<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}>(localVarRequestOptions)
 }
 {{/operation}}
 {{/operations}}
