@@ -8,14 +8,5 @@
   "useSingleRequestParameter": true,
   "prependFormOrBodyParameters": true,
   "templateDir": "/local/typescript-axios",
-  "files": {
-    "api.mustache": {
-      "templateType": "API",
-      "destinationFilename": "apis.ts"
-    },
-    "model.mustache": {
-      "templateType": "MODEL",
-      "destinationFilename": "models.ts"
-    }
-  }
+  "files": {}
 }
