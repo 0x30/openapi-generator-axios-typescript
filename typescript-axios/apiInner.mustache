@@ -28,7 +28,7 @@ import { {{classname}} } from '{{apiRelativeToRoot}}{{tsModelPackage}}';
  * @param {*} [options] Override http request option.
  * @throws {RequiredError}
  */
-export const {{#lambda.camelcase}}{{path}}With{{httpMethod}}{{/lambda.camelcase}} = ({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options: AxiosRequestConfig = {}) => {
+export const {{#lambda.camelcase}}{{path}}Using{{httpMethod}}{{/lambda.camelcase}} = ({{#allParams}}{{paramName}}{{^required}}?{{/required}}: {{{dataType}}}, {{/allParams}}options: AxiosRequestConfig = {}) => {
     {{#allParams}}
     {{#required}}
             // verify required parameter '{{paramName}}' is not null or undefined
@@ -148,7 +148,7 @@ export const {{#lambda.camelcase}}{{path}}With{{httpMethod}}{{/lambda.camelcase}
     {{/bodyParam}}
 
     localVarRequestOptions.url = localVarUrlObj.pathname + localVarUrlObj.search + localVarUrlObj.hash;
-    return axios.request<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}>(localVarRequestOptions).then(res => res.data)
+    return axios.request<{{#returnType}}{{{returnType}}}{{/returnType}}{{^returnType}}void{{/returnType}}>(localVarRequestOptions);
 }
 {{/operation}}
 {{/operations}}
