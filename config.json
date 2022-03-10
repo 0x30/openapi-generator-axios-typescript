@@ -1,7 +1,7 @@
 {
   "apiPackage": "apis",
   "modelPackage": "models",
-
+  "enumPropertyNaming": "UPPERCASE",
   "supportsES6": true,
   "withInterfaces": true,
   "withSeparateModelsAndApi": true,
