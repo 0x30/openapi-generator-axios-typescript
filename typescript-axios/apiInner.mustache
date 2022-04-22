@@ -10,7 +10,7 @@ import { AxiosRequestConfig } from 'axios';
 import { axios,RequiredError } from '{{apiRelativeToRoot}}base';
 {{#imports}}
 // @ts-ignore
-import { {{classname}} } from '{{apiRelativeToRoot}}{{tsModelPackage}}';
+import type { {{classname}} } from '{{apiRelativeToRoot}}{{tsModelPackage}}';
 {{/imports}}
 {{/withSeparateModelsAndApi}}
 {{^withSeparateModelsAndApi}}
