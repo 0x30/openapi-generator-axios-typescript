@@ -48,6 +48,52 @@ export const {{#lambda.camelcase}}{{path}}Using{{httpMethod}}{{/lambda.camelcase
             const localVarQueryParameter = {} as any;{{#vendorExtensions}}{{#hasFormParams}}
             const localVarFormParams = new {{^multipartFormData}}URLSearchParams(){{/multipartFormData}}{{#multipartFormData}}FormData(){{/multipartFormData}};{{/hasFormParams}}{{/vendorExtensions}}
 
+     {{#authMethods}}
+            // authentication {{name}} required
+            {{#isApiKey}}
+            {{#isKeyInHeader}}
+            if (configuration && configuration.apiKey) {
+                const localVarApiKeyValue = typeof configuration.apiKey === 'function'
+                    ? await configuration.apiKey("{{keyParamName}}")
+                    : await configuration.apiKey;
+                localVarHeaderParameter["{{keyParamName}}"] = localVarApiKeyValue;
+            }
+            {{/isKeyInHeader}}
+            {{#isKeyInQuery}}
+            if (configuration && configuration.apiKey) {
+                const localVarApiKeyValue = typeof configuration.apiKey === 'function'
+                    ? await configuration.apiKey("{{keyParamName}}")
+                    : await configuration.apiKey;
+                localVarQueryParameter["{{keyParamName}}"] = localVarApiKeyValue;
+            }
+            {{/isKeyInQuery}}
+            {{/isApiKey}}
+            {{#isBasicBasic}}
+            // http basic authentication required
+            if (configuration && (configuration.username || configuration.password)) {
+                localVarRequestOptions["auth"] = { username: configuration.username, password: configuration.password };
+            }
+            {{/isBasicBasic}}
+            {{#isBasicBearer}}
+            // http bearer authentication required
+            if (configuration && configuration.accessToken) {
+                const accessToken = typeof configuration.accessToken === 'function'
+                    ? await configuration.accessToken()
+                    : await configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + accessToken;
+            }
+            {{/isBasicBearer}}
+            {{#isOAuth}}
+            // oauth required
+            if (configuration && configuration.accessToken) {
+                const localVarAccessTokenValue = typeof configuration.accessToken === 'function'
+                    ? await configuration.accessToken("{{name}}", [{{#scopes}}"{{{scope}}}"{{^-last}}, {{/-last}}{{/scopes}}])
+                    : await configuration.accessToken;
+                localVarHeaderParameter["Authorization"] = "Bearer " + localVarAccessTokenValue;
+            }
+            {{/isOAuth}}
+
+    {{/authMethods}}
     {{#queryParams}}
             {{#isArray}}
             if ({{paramName}}) {
